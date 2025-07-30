@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <!-- NuGet Package Metadata -->
+    <PackageId>CalculatorLib</PackageId>
+    <Version>1.0.4</Version>
+    <Authors>YourName</Authors>
+    <Company>YourCompany</Company>
+    <Description>A lightweight calculator library</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/drago1979/CalculatorLib</RepositoryUrl>
+  </PropertyGroup>
+
+</Project>
