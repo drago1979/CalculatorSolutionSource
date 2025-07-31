@@ -14,12 +14,12 @@ namespace CalculatorLib
         // INPUT VALUES LIMITATIONS
         public static decimal GetMaxDecimalValue()
         {
-            return DecimalConstants.GetMaxDecimalValue();
+            return InputTypeDecimal.GetMaxValue();
         }
 
         public static decimal GetMinDecimalValue()
         {
-            return DecimalConstants.GetMinDecimalValue();
+            return InputTypeDecimal.GetMinValue();
         }
 
         public static string GetOperandValues()

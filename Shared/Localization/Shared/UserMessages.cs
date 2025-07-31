@@ -1,4 +1,5 @@
 ﻿using CalculatorLib;
+using CalculatorLib.InputTypes;
 
 namespace Shared.Localization.Shared;
 
@@ -21,8 +22,8 @@ public abstract class UserMessages
     public string GetMessageTextReadFirstNumber() => 
         string.Format(
             MessageTextEnterFirstNumber,
-            Calculator.GetMaxDecimalValue(),
-            Calculator.GetMinDecimalValue(),
+            InputTypeDecimal.GetMinValue(),
+            InputTypeDecimal.GetMaxValue(),
             Calculator.GetOperandValues()
         );
     

@@ -14,4 +14,14 @@ public class InputTypeDecimal: IParsableInput<InputTypeDecimal>
 
         return new InputTypeDecimal(number);
     }
+    
+    public static decimal GetMaxValue()
+    {
+        return decimal.MaxValue;
+    }
+    
+    public static decimal GetMinValue()
+    {
+        return decimal.MinValue;
+    }
 }
