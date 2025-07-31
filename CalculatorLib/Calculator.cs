@@ -1,5 +1,4 @@
-﻿using CalculatorLib.Constants;
-using CalculatorLib.InputTypes;
+﻿using CalculatorLib.InputTypes;
 
 
 namespace CalculatorLib
