@@ -10,7 +10,7 @@ public class UserMessagesEn : UserMessages
 
                                                       Allowed values:
                                                       {1}
-                                                      (type the value)                                          "
+                                                      (type the value or enter a digit; First language = 0)
                                                       """;
     
     protected override string MessageTextInitMessage => """

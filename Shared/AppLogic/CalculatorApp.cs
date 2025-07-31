@@ -2,6 +2,7 @@
 using CalculatorLib.InputTypes;
 using CalculatorLib.Interfaces;
 using Shared.Base;
+using Shared.Helpers;
 using Shared.Interfaces;
 using Shared.Localization.Enum;
 using Shared.Localization.Factory;
@@ -16,6 +17,7 @@ public class CalculatorApp(
 )
 {
     private const Language DefaultLanguage = Language.En;
+    private const string InvalidInputMessage = "Invalid input: ";
 
     private static readonly string[] EscapeStrings = ["q", "exit"];
 
@@ -57,16 +59,9 @@ public class CalculatorApp(
 
             if (UseDefaultLanguage(userInput)) return _userMessages;
 
-            try
-            {
-                var lang = Enum.Parse<Language>(userInput, true);
-
-                return messagesFactory.Create(lang);
-            }
-            catch (ArgumentException e)
-            {
-                ReadUserReinputOrExit(e);
-            }
+            if (Helper.TryGetValidEnum<Language>(userInput, out var lang)) return messagesFactory.Create(lang);
+            
+            ReadUserReinputOrExit(new ArgumentException(InvalidInputMessage + userInput));
         }
     }
 
@@ -88,7 +83,7 @@ public class CalculatorApp(
     }
 
     // <--Languages
-    
+
     private void GreetTheUser()
     {
         Respond(_userMessages.GetMessageTextInitMessage());
@@ -126,12 +121,12 @@ public class CalculatorApp(
         Respond(exception);
         Respond(_userMessages.GetMessageTextEnterValueAgainOrExit());
     }
-    
+
     private static bool ShouldExit(string input) =>
         EscapeStrings.Any(escapeString => input.Equals(escapeString, StringComparison.InvariantCultureIgnoreCase));
-    
+
     // <-- Read input
-    
+
     // --> Responses
     private void Respond(string message)
     {

@@ -10,7 +10,7 @@ public class UserMessagesSrbLat: UserMessages
 
                                                       Dozvoljene vrednosti:
                                                       {1}
-                                                      (ukucaj vrednost za zeljeni jezik)                                          "
+                                                      (ukucaj vrednost za zeljeni jezik ili unesi cifru; prvi jezik = 0)                                          "
                                                       """;
 
     
