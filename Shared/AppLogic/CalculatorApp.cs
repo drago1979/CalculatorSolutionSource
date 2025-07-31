@@ -1,6 +1,7 @@
 ﻿using CalculatorLib;
 using CalculatorLib.InputTypes;
 using CalculatorLib.Interfaces;
+using CalculatorLib.Services.Parsers;
 using Shared.Base;
 using Shared.Helpers;
 using Shared.Interfaces;
@@ -22,19 +23,18 @@ public class CalculatorApp(
     private static readonly string[] EscapeStrings = ["q", "exit"];
 
     private UserMessages _userMessages = messagesFactory.Create(DefaultLanguage);
-
-    private readonly IParser<decimal> _decimalParser = Calculator.GetDecimalParser();
-    private readonly IParser<Operand> _operandParser = Calculator.GetOperandParser();
+    
+    private readonly IParserProvider _parserProvider = new ParserProvider();
 
     public void Run()
     {
         _userMessages = ReadUserLanguageChoice();
 
         GreetTheUser();
-
-        var num1 = ReadInput(_userMessages.GetMessageTextReadFirstNumber(), _decimalParser);
-        var operand = ReadInput(_userMessages.GetMessageTextReadOperand(), _operandParser);
-        var num2 = ReadInput(_userMessages.GetMessageTextReadSecondNumber(), _decimalParser);
+        
+        var num1 = ReadInput<decimal>(_userMessages.GetMessageTextReadFirstNumber());
+        var operand = ReadInput<Operand>(_userMessages.GetMessageTextReadOperand());
+        var num2 = ReadInput<decimal>(_userMessages.GetMessageTextReadSecondNumber());
 
         try
         {
@@ -90,8 +90,10 @@ public class CalculatorApp(
     }
 
     // --> Read input
-    private T ReadInput<T>(string message, IParser<T> parser)
+    private T ReadInput<T>(string message)
     {
+        var parser = _parserProvider.GetParser<T>();
+        
         while (true)
         {
             ReadUserInputOrExit(out var input, message);
