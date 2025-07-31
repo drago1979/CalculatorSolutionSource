@@ -1,6 +1,6 @@
 ﻿namespace CalculatorLib.InputTypes
 {
-    public readonly record struct Operand // todo: confirm adequate struct; what about others?
+    public readonly record struct InputTypeOperand: IParsableInput<InputTypeOperand> // todo: confirm adequate struct; what about others?
     {
         private readonly string _symbol;
 
@@ -12,24 +12,24 @@
             ["/"] = (a, b) => a / b,
         };
 
-        private Operand(string symbol)
+        private InputTypeOperand(string symbol)
         {
             _symbol = symbol;
         }
 
-        internal static Operand Parse(string input)
+        public static InputTypeOperand Parse(string input)
         {
             if (!Operations.ContainsKey(input))
             {
                 throw new FormatException($"String '{input}' is not valid symbol for mathematical operation");
             }
-
-            return new Operand(input);
+            
+            return new InputTypeOperand(input);
         }
-
-        internal decimal Apply(decimal num1, decimal num2)
+        
+        internal decimal Apply(InputTypeDecimal num1, InputTypeDecimal num2)
         {
-            return Operations[_symbol](num1, num2);
+            return Operations[_symbol](num1.Value, num2.Value);
         }
 
         internal static string GetValues()

@@ -1,7 +1,5 @@
 ﻿using CalculatorLib;
 using CalculatorLib.InputTypes;
-using CalculatorLib.Interfaces;
-using CalculatorLib.Services.Parsers;
 using Shared.Base;
 using Shared.Helpers;
 using Shared.Interfaces;
@@ -23,8 +21,6 @@ public class CalculatorApp(
     private static readonly string[] EscapeStrings = ["q", "exit"];
 
     private UserMessages _userMessages = messagesFactory.Create(DefaultLanguage);
-    
-    private readonly IParserProvider _parserProvider = new ParserProvider();
 
     public void Run()
     {
@@ -32,9 +28,9 @@ public class CalculatorApp(
 
         GreetTheUser();
         
-        var num1 = ReadInput<decimal>(_userMessages.GetMessageTextReadFirstNumber());
-        var operand = ReadInput<Operand>(_userMessages.GetMessageTextReadOperand());
-        var num2 = ReadInput<decimal>(_userMessages.GetMessageTextReadSecondNumber());
+        var num1 = ReadInput<InputTypeDecimal>(_userMessages.GetMessageTextReadFirstNumber());
+        var operand = ReadInput<InputTypeOperand>(_userMessages.GetMessageTextReadOperand());
+        var num2 = ReadInput<InputTypeDecimal>(_userMessages.GetMessageTextReadSecondNumber());
 
         try
         {
@@ -90,17 +86,15 @@ public class CalculatorApp(
     }
 
     // --> Read input
-    private T ReadInput<T>(string message)
+    private T ReadInput<T>(string message) where T : IParsableInput<T>
     {
-        var parser = _parserProvider.GetParser<T>();
-        
         while (true)
         {
             ReadUserInputOrExit(out var input, message);
 
             try
             {
-                return parser.Parse(input);
+                return T.Parse(input);
             }
             catch (Exception e) when (e is FormatException or OverflowException)
             {

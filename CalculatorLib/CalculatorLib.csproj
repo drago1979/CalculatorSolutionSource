@@ -15,4 +15,8 @@
     <RepositoryUrl>https://github.com/drago1979/CalculatorLib</RepositoryUrl>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>
