@@ -18,7 +18,7 @@ public class UserMessagesEn : UserMessages
                                                         -- CalculatorLib app --
                                                         Please enter required data. 
                                                         After each entered value, press ENTER to continue.
-                                                        Anytime you can exit by entering 'q' or 'exit'"
+                                                        Anytime you can exit by entering: {0}"
                                                         **************************************************
                                                         """;
 
@@ -31,11 +31,17 @@ public class UserMessagesEn : UserMessages
 
     protected override string MessageTextEnterOperand => "### Enter an operand ({0})";
 
-    protected override string MessageTextEnterValueAgainOrExit => "### Enter valid value or exit with 'q' or 'exit'";
+    protected override string MessageTextEnterValueAgainOrExit => "### Enter valid value or exit with {0}";
 
-    protected override string MessageTextUserAborted => "INFO: You`ve entered 'q' or 'exit'. Terminating application.";
+    protected override string MessageTextUserAborted => "INFO: You`ve entered {0}. Terminating application.";
 
     protected override string MessageTextMathOperationResultIs => "Result is: {0}";
 
-    protected override string ErrorPrefix => "!!! ERROR: ";
+    protected override string MessageTextShouldContinue => """
+                                                           Do you want to perform another calculation?
+                                                           Type: {0} to abort.
+                                                           Any other key = continue.
+                                                           """;
+
+    protected override string EscapeStringsSeparator => " or ";
 }

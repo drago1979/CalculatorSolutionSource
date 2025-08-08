@@ -6,6 +6,7 @@ using Shared.Interfaces;
 using Shared.Localization.Enum;
 using Shared.Localization.Factory;
 using Shared.Localization.Shared;
+using Shared.Constants;
 
 namespace Shared.AppLogic;
 
@@ -18,8 +19,6 @@ public class CalculatorApp(
     private const Language DefaultLanguage = Language.En;
     private const string InvalidInputMessage = "Invalid input: ";
 
-    private static readonly string[] EscapeStrings = ["q", "exit"];
-
     private UserMessages _userMessages = messagesFactory.Create(DefaultLanguage);
 
     public void Run()
@@ -27,7 +26,17 @@ public class CalculatorApp(
         _userMessages = ReadUserLanguageChoice();
 
         GreetTheUser();
+
+        var continueRunning = true;
         
+        while (continueRunning)
+        {
+            continueRunning = GetUserInputsAndCalculate();
+        }
+    }
+
+    private bool GetUserInputsAndCalculate()
+    {
         var num1 = ReadInput<InputTypeDecimal>(_userMessages.GetMessageTextReadFirstNumber());
         var operand = ReadInput<InputTypeOperand>(_userMessages.GetMessageTextReadOperand());
         var num2 = ReadInput<InputTypeDecimal>(_userMessages.GetMessageTextReadSecondNumber());
@@ -38,10 +47,21 @@ public class CalculatorApp(
 
             Respond(_userMessages.GetMessageMathOperationResult(result));
         }
-        catch (OverflowException e)
+        catch (Exception e) when (e is OverflowException or DivideByZeroException)
         {
             Respond(e);
         }
+
+        return AskUserToContinue();
+    }
+    
+    private bool AskUserToContinue()
+    {
+        Respond(_userMessages.GetMessageShouldContinue());
+
+        var input = userInterface.GetInput();
+
+        return !ShouldExit(input);
     }
 
     // --> Languages
@@ -56,7 +76,7 @@ public class CalculatorApp(
             if (UseDefaultLanguage(userInput)) return _userMessages;
 
             if (Helper.TryGetValidEnum<Language>(userInput, out var lang)) return messagesFactory.Create(lang);
-            
+
             ReadUserReinputOrExit(new ArgumentException(InvalidInputMessage + userInput));
         }
     }
@@ -77,9 +97,8 @@ public class CalculatorApp(
     {
         return DefaultLanguage.GetAllLanguages();
     }
-
     // <--Languages
-
+    
     private void GreetTheUser()
     {
         Respond(_userMessages.GetMessageTextInitMessage());
@@ -111,7 +130,7 @@ public class CalculatorApp(
 
         if (ShouldExit(input)) applicationTerminator.Terminate(userInterface, _userMessages);
     }
-
+    
     private void ReadUserReinputOrExit(Exception exception)
     {
         Respond(exception);
@@ -119,8 +138,7 @@ public class CalculatorApp(
     }
 
     private static bool ShouldExit(string input) =>
-        EscapeStrings.Any(escapeString => input.Equals(escapeString, StringComparison.InvariantCultureIgnoreCase));
-
+      ConstantsList.EscapeStrings.Any(escapeString => input.Equals(escapeString, StringComparison.InvariantCultureIgnoreCase));
     // <-- Read input
 
     // --> Responses
