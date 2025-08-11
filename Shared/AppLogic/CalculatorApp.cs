@@ -10,6 +10,9 @@ using Shared.Constants;
 
 namespace Shared.AppLogic;
 
+/// <summary>
+/// Represents the main application logic for a calculator app.
+/// </summary>
 public class CalculatorApp(
     UserInterface userInterface,
     IApplicationTerminator applicationTerminator,
@@ -20,7 +23,14 @@ public class CalculatorApp(
     private const string InvalidInputMessage = "Invalid input: ";
 
     private UserMessages _userMessages = messagesFactory.Create(DefaultLanguage);
-
+    
+    /// <remarks>
+    /// The Run method serves as the entry point of the CalculatorApp, performing the following:
+    /// - Initializes user messages with a default language.
+    /// - Reads the user's preferred language and updates messages.
+    /// - Displays a greeting message to the user.
+    /// - Executes a continuous loop to solicit user inputs and perform calculations, until the user decides to terminate.
+    /// </remarks>
     public void Run()
     {
         _userMessages = ReadUserLanguageChoice();

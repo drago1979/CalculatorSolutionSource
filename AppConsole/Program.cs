@@ -6,6 +6,7 @@ using Shared.Localization.Factory;
 
 namespace AppConsole;
 
+///
 public static class Program
 {
     private static void Main()

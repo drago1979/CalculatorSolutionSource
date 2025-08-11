@@ -2,12 +2,34 @@
 
 namespace Shared.Localization.Enum;
 
+/// <summary>
+/// Provides extension methods for the <see cref="Language"/> enum.
+/// </summary>
 public static class LanguageExtensions
 {
     static LanguageExtensions()
     {
         ValidateEnumCoverage();
     }
+    
+    ///
+    public static UserMessages Create(this Language lang)
+    {
+        return Factories[lang]();
+    }
+
+    ///
+    public static string GetUserPreview(this Language lang)
+    {
+        return UserPreviews[lang];
+    }
+
+    ///
+    public static string GetAllLanguages(this Language lang)
+    {
+        return string.Join(", ", System.Enum.GetValues<Language>());
+    }
+    
     
     private static void ValidateEnumCoverage()
     {
@@ -35,18 +57,4 @@ public static class LanguageExtensions
         [Language.En] = "English",
         [Language.SrbLat] = "Serbian Latin",
     };
-
-    public static UserMessages Create(this Language lang) // todo: static?
-    {
-        return Factories[lang]();
-    }
-
-    public static string GetUserPreview(this Language lang)
-    {
-        return UserPreviews[lang];
-    }
-    public static string GetAllLanguages(this Language lang)
-    {
-        return string.Join(", ", System.Enum.GetValues<Language>());
-    }
 }

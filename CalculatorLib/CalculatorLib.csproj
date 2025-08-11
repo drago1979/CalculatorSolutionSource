@@ -4,6 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
     <!-- NuGet Package Metadata -->
     <PackageId>CalculatorLib</PackageId>
@@ -14,9 +15,5 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/drago1979/CalculatorLib</RepositoryUrl>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
 
 </Project>
